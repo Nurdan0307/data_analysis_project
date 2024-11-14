@@ -1,4 +1,4 @@
-select * from products_orders
+--Calculating Total Sales
 
 update products_orders
 set "tablo" = "unit_price" * "quantity";
@@ -6,7 +6,7 @@ set "tablo" = "unit_price" * "quantity";
 alter table products_orders
 rename column tablo to total_sales;
 
-
+--Total Sales by Month for The Year 1996
 
 select date_trunc('month', "order_date")
 as "month",
@@ -17,6 +17,8 @@ where extract(year from "order_date") = 1996
 group by "month"
 order by "month";
 
+--Total Sales by Month for The Year 1997
+
 select date_trunc('month', "order_date")
 as "month",
 sum("total_sales") as 
@@ -26,9 +28,8 @@ where extract(year from "order_date") = 1997
 group by "month"
 order by "month";
 
-select * from suppliers
-
---tedarikçilerin yıllara göre satışları
+--Suppliers' sales by years
+  
 select extract (year from po.order_date) as
 orderyear, 
 s.supplier_id, s.company_name,
@@ -38,8 +39,8 @@ join suppliers s on po.supplier_id = s.supplier_id
 group by orderyear, s.supplier_id, s.company_name
 order by orderyear, total_sales desc;
 
-select * from products_orders
---stok devir hızı analizi
+--Stock Turnover Analysis
+
 select p.product_name,
 sum(po.quantity) as total_sales,
 avg(p.unit_in_stock) as average_stock,
@@ -50,9 +51,7 @@ from products p
 join products_orders po on p.product_id = po.product_id
 group by p.product_name;
 
-select * from employees
-
---Çalışan Performansı Analizi (performans ölçütü olarak total_revenue kullanıldı.)
+--Employee Performance Analysis (total_revenue was used as the performance criterion.)
 
 select e.employee_id,
 concat(e.first_name, ' ', e.last_name) as full_name,
@@ -61,7 +60,7 @@ join products_orders po on e.employee_id = po.employee_id
 group by e.employee_id, full_name
 order by total_revenue desc;
 
---Departman Bazında Performans Analizi (performans ölçütü olarak total_revenue kullanıldı.)
+--Performance Analysis by Department (total_revenue was used as the performance criterion.)
 
 select e.title as department,
 sum(po.total_sales) as total_revenue
@@ -70,7 +69,7 @@ join products_orders po on e.employee_id = po.employee_id
 group by e.title
 order by total_revenue desc;
 
---Ülke Bazında Çalışan Dağılımı
+--Employee Distribution by Country
 
 select country,
 count(employee_id) as employee_count
@@ -78,13 +77,15 @@ from employees
 group by country
 order by employee_count desc;
 
---Departman bazında çalışan dağılımı
+--Employee distribution by department
+
 select title, count(employee_id) as employee_count
 from employees
 group by title
 order by employee_count desc;
 
---Hiyerarşi haritası
+--Hierarchy map
+
 select e.employee_id as employee,
 concat(e.first_name, ' ', e.last_name) as employee_name,
 concat (m.first_name, ' ', m.last_name) as manager_name
@@ -92,7 +93,7 @@ from employees e
 left join employees m on e.reports_to = m.employee_id
 order by e.employee_id;
 
---Yılın elemanları
+--Employees of the year
 
 select po.employee_id,
 concat(e.first_name, ' ', e.last_name) as employee_name,
@@ -103,7 +104,8 @@ join employees e on po.employee_id = e.employee_id
 group by po.employee_id, employee_name, year
 order by year, total_sales desc;
 
---veri tiplerini görmek isteedim
+--I wanted to see the data types
+
 select column_name, data_type
 from information_schema.columns
 where table_name = 'products_orders';
@@ -117,7 +119,8 @@ limit 10;
 
 select * from customers
 
---Müşteri Segmentasyonu
+--Customer Segmentation
+
 select c.customer_id, c.company_name, sum(po.total_sales)
 as total_spent,
 case when sum(po.total_sales)<= 5000 then 'low tech'
@@ -130,7 +133,8 @@ order by total_spent desc;
 
 select * from customers
 
---müşteri sadakati
+--Customer Loyalty
+  
 select c.customer_id, c.company_name, count(po.order_id)
 as total_orders,
 case when count(po.order_id)
@@ -142,7 +146,8 @@ join products_orders po on c.customer_id = po.customer_id
 group by c.customer_id, c.company_name
 order by total_orders desc;
 
---Reorder level analizi
+--Reorder Level Analysis
+
 select product_name, unit_in_stock, reorder_level
 from products
 where unit_in_stock <= reorder_level;
@@ -152,7 +157,8 @@ reorder_level - unit_in_stock as
 reorder_quantity from products
 where unit_in_stock < reorder_level;
 
---churn analizi
+--Churn Analysis
+
 select c.customer_id, c.company_name as customer_name,
 max(po.order_date) as last_order_date,
 count(po.order_id) as total_orders,
@@ -168,7 +174,8 @@ from customers c
 left join products_orders po on c.customer_id = po.customer_id
 group by c.customer_id, c.company_name;
 
---Ülkelere Göre Müşteri Dağılımı
+--Customer Distribution by Countries
+
 select country, count (*) as customer_count
 from customers group by country
 order by customer_count desc;
