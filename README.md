@@ -1,4 +1,4 @@
-# # Capstone Project: Data Analysis on Northwind Dataset
+# Capstone Project: Data Analysis on Northwind Dataset
 
 This repository contains a comprehensive data analysis project using the Northwind dataset. The project involves SQL queries, Python analyses, and Power BI visualizations. The objective is to analyze the company's sales performance, examine customer behavior, and evaluate supplier relationships.
 
