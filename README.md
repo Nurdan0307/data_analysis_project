@@ -41,11 +41,15 @@ This repository contains a comprehensive data analysis project using the Northwi
 2. **Python Analysis:** Open and execute `northwind_analysis.ipynb` in Jupyter Notebook or your preferred IDE.
 3. **Power BI Dashboard:** Open the `northwind_dashboard.pbix` file in Power BI Desktop to explore the visualizations.
 
-## License
-This project is licensed under the MIT License. For more details, refer to the `LICENSE` file.
-
 ## Contributing
 If you have any suggestions or would like to contribute, please create a pull request or open an issue.
 
 ## Contact
-Feel free to reach out if you have any questions regarding this project.
+## 📮 Contact 
+
+For questions or feedback, feel free to reach out: 
+- **Email:** [nurdankurt96@gmailcom](mailto:nurdankurt96@gmail.com) 
+- **GitHub:** [GitHub Nurdan0307](https://github.com/Nurdan0307) 
+
+Thank you for visiting this repository!
+
